@@ -1,0 +1,16 @@
+<!-- Launch file for ROSBuzz2 -->
+
+<launch>
+	<node name="rosbuzz2_node" pkg="rosbuzz2" type="rosbuzz2_node" respawn="false" output="screen">
+            <rosparam file="$(find rosbuzz2)/launch/launch_config/m100.yaml"/>
+            <param name="bzzfile_name" value="$(find rosbuzz2)/script/test.bzz" />
+            <param name="rcclient" value="true" />
+            <param name="rcservice_name" value="buzzcmd" />
+            <param name="in_payload" value="inMavlink"/>
+            <param name="out_payload" value="outMavlink"/>
+            <param name="xbee_plugged" value="true"/>
+            <param name="name" value="m1001"/>
+            <param name="xbee_status_srv" value="xbee_status"/>
+            <param name="stand_by" value="$(find rosbuzz2)/script/stand_by.bzz"/>
+        </node>		
+</launch>
