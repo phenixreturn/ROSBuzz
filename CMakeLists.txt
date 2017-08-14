@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(rosbuzz)
+project(rosbuzz2)
 
 if(UNIX)
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -std=gnu++11")
@@ -33,9 +33,7 @@ sensor_msgs
 
 catkin_package(
   INCLUDE_DIRS include
-#  LIBRARIES xbee_ros_node
   CATKIN_DEPENDS roscpp std_msgs mavros_msgs sensor_msgs message_runtime
-#  DEPENDS system_lib
 )
 
 ###########
@@ -43,24 +41,26 @@ catkin_package(
 ###########
 
 include_directories(
-  include ${rosbuzz_INCLUDE_DIRS}
+  include ${rosbuzz2_INCLUDE_DIRS}
   ${catkin_INCLUDE_DIRS}
 )
-# set the path to the library folder
-link_directories(/usr/local/lib)
 
 # Executables 
-add_executable(rosbuzz_node src/rosbuzz.cpp
+add_executable(rosbuzz2_node src/rosbuzz.cpp
   src/roscontroller.cpp
-  src/buzz_utility.cpp
-  src/buzzuav_closures.cpp
-  src/uav_utility.cpp 
-  src/buzz_update.cpp)
-target_link_libraries(rosbuzz_node ${catkin_LIBRARIES} buzz buzzdbg pthread)
-add_dependencies(rosbuzz_node rosbuzz_generate_messages_cpp)
+  src/Types/position.cpp
+  src/RosBuzz_Abstraction_Layer/ros_callback_interface.cpp
+  src/RosBuzz_Abstraction_Layer/rci_current_position.cpp
+  src/RosBuzz_Implementation_Layer/rosbuzz_current_position_impl.cpp
+  src/Buzz_Abstraction_Layer/buzz_utility.cpp
+  src/Buzz_Abstraction_Layer/buzz_vm_interface.cpp
+  src/Buzz_Abstraction_Layer/buzz_update_closure.cpp
+  )
+target_link_libraries(rosbuzz2_node ${catkin_LIBRARIES} buzz buzzdbg pthread)
+add_dependencies(rosbuzz2_node rosbuzz2_generate_messages_cpp)
 
 # Executables and libraries for installation to do
-install(TARGETS rosbuzz_node
+install(TARGETS rosbuzz2_node
    ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
    LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
    RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
