@@ -20,19 +20,42 @@ struct pos_struct
   pos_struct(double x,double y,double z):x(x),y(y),z(z){};
   pos_struct(){}
 };
+typedef struct pos_struct Pos_struct;
+struct rb_struct
+{
+  double r,b,latitude,longitude,altitude;
+  rb_struct(double la, double lo, double al, double r,double b):latitude(la),longitude(lo),altitude(al),r(r),b(b){};
+  rb_struct(){}
+};
+typedef struct rb_struct RB_struct;
 
-typedef struct pos_struct Pos_struct ;
+struct neiStatus
+{
+  uint gps_strenght = 0;
+  uint batt_lvl = 0;
+  uint xbee = 0;
+  uint flight_status = 0;
+}; typedef struct neiStatus neighbors_status ;
+
 
 uint16_t* u64_cvt_u16(uint64_t u64);
 
 int buzz_listen(const char* type,
                        int msg_size);
 
-void neighbour_pos_callback(std::map< int,  Pos_struct> neighbours_pos_map);
+void add_user(int id, double latitude, double longitude, float altitude);
+void update_users();
+int make_table(buzzobj_t* t);
+int buzzusers_add(int id, double latitude, double longitude, double altitude);
+int buzzusers_reset();
+	int compute_users_rb();
+	int create_stig_tables();
 
-void in_msg_process(uint64_t* payload);
+void in_msg_append(uint64_t* payload);
 
-uint64_t* out_msg_process();
+uint64_t* obt_out_msg();
+
+void update_sensors();
 
 int buzz_script_set(const char* bo_filename,
                            const char* bdbg_filename, int robot_id);
@@ -49,7 +72,11 @@ int buzz_script_done();
 
 int update_step_test();
 
-uint16_t get_robotid();
+int get_robotid();
 
 buzzvm_t get_vm();
+
+void set_robot_var(int ROBOTS);
+
+int get_inmsg_size();
 }

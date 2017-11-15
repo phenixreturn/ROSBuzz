@@ -15,7 +15,6 @@ find_package(catkin REQUIRED COMPONENTS
 )
 
 ##############################
-#Generate messages#
 ##############################
 
 add_message_files(
@@ -47,6 +46,8 @@ include_directories(
   include ${rosbuzz_INCLUDE_DIRS}
   ${catkin_INCLUDE_DIRS}
 )
+# set the path to the library folder
+link_directories(/usr/local/lib)
 
 # Executables 
 add_executable(rosbuzz_node src/rosbuzz.cpp
@@ -55,7 +56,7 @@ add_executable(rosbuzz_node src/rosbuzz.cpp
   src/buzzuav_closures.cpp
   src/uav_utility.cpp 
   src/buzz_update.cpp)
-target_link_libraries(rosbuzz_node ${catkin_LIBRARIES} /usr/local/lib/libbuzz.so /usr/local/lib/libbuzzdbg.so -lpthread)
+target_link_libraries(rosbuzz_node ${catkin_LIBRARIES} buzz buzzdbg pthread)
 add_dependencies(rosbuzz_node rosbuzz_generate_messages_cpp)
 
 # Executables and libraries for installation to do

@@ -6,7 +6,7 @@
 #include <buzz/buzzdict.h>
 #include <buzz/buzzdarray.h>
 #include <buzz/buzzvstig.h>
-
+#include <fstream>
 #define delete_p(p) do { free(p); p = NULL; } while(0)
 
 
@@ -73,7 +73,7 @@ void update_routine(const char* bcfname,
 /************************************************/
 /*Initalizes the updater */
 /************************************************/
-void init_update_monitor(const char* bo_filename,const char* stand_by_script,int barrier);
+void init_update_monitor(const char* bo_filename,const char* stand_by_script);
 
 
 /*********************************************************/
@@ -129,4 +129,9 @@ int get_update_status();
 
 void set_read_update_status();
 
+int compile_bzz();
+
+void updates_set_robots(int robots);
+
+void collect_data(std::ofstream &logger);
 #endif
